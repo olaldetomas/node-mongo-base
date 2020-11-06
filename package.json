@@ -1,0 +1,43 @@
+{
+  "name": "node-mongo-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config src/index.js",
+    "start": "nodemon -r dotenv/config --exec babel-node src/index.js",
+    "build": "babel src -d dist --source-maps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olaldetomas/node-mongo-base.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olaldetomas/node-mongo-base/issues"
+  },
+  "homepage": "https://github.com/olaldetomas/node-mongo-base#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "mongoose": "^5.10.13"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/preset-env": "^7.9.5",
+    "@decorators/di": "^1.0.2",
+    "@decorators/express": "^2.4.0",
+    "dotenv": "^8.2.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.6"
+  }
+}

@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  
+  node:
+    build: .
+    image: nodejs-image
+    container_name: nodejs
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - 'db'
+    volumes:
+      - ./:/node/app/
+
+  db:
+    image: 'mongo:4.0'
+    container_name: mongodb
+    restart: always
+    env_file: .env
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+    volumes:
+      - data-volume:/var/lib/db
+
+volumes:
+  data-volume:
