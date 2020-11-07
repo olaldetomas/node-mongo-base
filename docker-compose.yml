@@ -1,32 +1,63 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  
+  db:
+    image: mongo:4.0
+    container_name: db
+    restart: always
+    env_file: .env
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    volumes:
+      - data-volume:/var/lib/db
+    networks:
+      - dev-network
+
   node:
     build: .
     image: nodejs-image
     container_name: nodejs
     restart: unless-stopped
     env_file: .env
+    environment:
+      - PORT=$PORT
+      - NODE_ENV=$NODE_ENV
+      - MONGO_USERNAME=$MONGO_USERNAME
+      - MONGO_PASSWORD=$MONGO_PASSWORD
+      - MONGO_HOSTNAME=$MONGO_HOSTNAME
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
-      - 'db'
+      - db
     volumes:
       - ./:/node/app/
+    networks:
+      - dev-network
 
-  db:
-    image: 'mongo:4.0'
-    container_name: mongodb
-    restart: always
-    env_file: .env
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
     ports:
-      - "27017:27017"
+      - 8081:8081
+    env_file: .env
     environment:
-      MONGO_INITDB_ROOT_USERNAME: $MONGO_USERNAME
-      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
-    volumes:
-      - data-volume:/var/lib/db
+      - ME_CONFIG_MONGODB_PORT=$MONGO_PORT
+      - ME_CONFIG_MONGODB_SERVER=db
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGO_USERNAME
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_PASSWORD
+    depends_on:
+      - db
+    networks:
+      - dev-network
 
 volumes:
   data-volume:
+
+networks:
+  dev-network:
+    driver: bridge

@@ -1,7 +1,7 @@
 import express from 'express'
 import Routes from './routes'
-import config from '../config/config'
 import path from 'path'
+import '../config/mongoose'
 
 class Server {
 
@@ -20,8 +20,8 @@ class Server {
       this.express.get(/.*/, (req, res) => res.sendFile(path.resolve(__dirname, '../public/index.html')))
     }
 
-    this.express.listen(config.PORT, () => {
-      console.log('Server on port: ' + config.PORT)
+    this.express.listen(process.env.PORT, () => {
+      console.log(`\x1b[35mServer on port: ${process.env.PORT}\x1b[0m`)
     })
   }
 

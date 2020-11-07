@@ -1,22 +1,31 @@
 import mongoose from 'mongoose'
-import config from './config'
 
-const url = ''
+const {
+  MONGO_USERNAME,
+  MONGO_PASSWORD,
+  MONGO_HOSTNAME,
+  MONGO_PORT,
+  MONGO_DB
+} = process.env;
+
+
 const options = {
   useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-}
+  reconnectTries: Number.MAX_VALUE,
+  reconnectInterval: 100,
+  connectTimeoutMS: 10000,
+};
 
-mongoose.set('useFindAndModify', false)
+const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+
 mongoose.connect(url, options)
 
 mongoose.connection.on('connected', () => {
-  console.log('Database \x1b[34mconnected\x1b[0m')
+  console.log('\x1b[34mDatabase connected\x1b[0m')
 })
 
 mongoose.connection.on('error', function (err) {
-  console.log('Database \x1b[31merror\x1b[0m', err)
+  console.log('\x1b[31mDatabase Error\x1b[0m', err)
 })
 
 process.on('SIGINT', function () {
