@@ -13,7 +13,6 @@ class UserController {
     const userModel = {
       username: user.username,
     }
-    await this.createTokenToUser(userModel)
     return res.send(userModel)
   }
 

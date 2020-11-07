@@ -14,7 +14,6 @@ class Server {
     const routes = new Routes(this.express)
     await routes.createRoutes()
 
-    // Production
     if (process.env.NODE_ENV === 'production') {
       this.express.use(express.static(path.resolve(__dirname, '../public/')))
       this.express.get(/.*/, (req, res) => res.sendFile(path.resolve(__dirname, '../public/index.html')))
