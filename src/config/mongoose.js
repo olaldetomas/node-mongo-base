@@ -9,12 +9,19 @@ const {
 } = process.env;
 
 
+// const options = {
+//   useNewUrlParser: true,
+//   reconnectTries: Number.MAX_VALUE,
+//   reconnectInterval: 500,
+//   connectTimeoutMS: 10000
+// };
+
 const options = {
   useNewUrlParser: true,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 100,
-  connectTimeoutMS: 10000,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
 };
+
 
 const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
 
